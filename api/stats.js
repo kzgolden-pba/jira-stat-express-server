@@ -61,12 +61,13 @@ function getStats(jira) {
             let weeklyTixTotals = [];
             let weeklyPointTotals = [];
             let resObj = {};
+            let attributes = {};
             
-            resObj.weeks = 4;
-            resObj.storiesWithoutPoints = 0;
-            resObj.storiesWithPoints = 0;
+            attributes.weeks = 4;
+            attributes.storiesWithoutPoints = 0;
+            attributes.storiesWithPoints = 0;
 
-            for(let i = 0; i < resObj.weeks; i++) {
+            for(let i = 0; i < attributes.weeks; i++) {
                 let tix = kanbanBoardData.issuesData.issues.filter((issue) => {
                     return lastCol.statusIds.indexOf(issue.statusId) > -1 && issue.timeInColumn.enteredStatus < previousSaturday(i) && issue.timeInColumn.enteredStatus > previousSaturday(i + 1);
                 });
@@ -74,22 +75,24 @@ function getStats(jira) {
                 weeklyTixTotals.push(tix.length);
                 tix.forEach((ticket) => {
                     if(ticket.storyPoints > 0) {
-                        resObj.storiesWithPoints += 1;
+                        attributes.storiesWithPoints += 1;
                     } else {
-                        resObj.storiesWithoutPoints += 1;
+                        attributes.storiesWithoutPoints += 1;
                     }
                 });
             }
 
             //resObj.averageCycleTime = calcAverageCycleTime(kanbanBoardData);
             
-            resObj.totalSamplePoints = weeklyPointTotals.reduce((a, b) => { return a + b;});
-            resObj.avgPoints = average(weeklyPointTotals);
-            resObj.stdDevPoints = standardDeviation(weeklyPointTotals);
-            resObj.totalTix = weeklyTixTotals.reduce((a, b) => { return a + b; });
-            resObj.avgNoTix = average(weeklyTixTotals);
-            resObj.stdDeviationNoTix = standardDeviation(weeklyTixTotals);
-            
+            attributes.totalSamplePoints = weeklyPointTotals.reduce((a, b) => { return a + b;});
+            attributes.avgPoints = average(weeklyPointTotals);
+            attributes.stdDevPoints = standardDeviation(weeklyPointTotals);
+            attributes.totalTix = weeklyTixTotals.reduce((a, b) => { return a + b; });
+            attributes.avgNoTixPerWeek = average(weeklyTixTotals);
+            attributes.stdDeviationNoTix = standardDeviation(weeklyTixTotals);
+            resObj.id = config.boardId;
+            resObj.type = 'stat';
+            resObj.attributes = attributes;
             return Promise.resolve(resObj);
         });
 }
