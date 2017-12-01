@@ -6,6 +6,7 @@ const config = require('./config/local');
 const Promise = require('bluebird');
 const stats = require('./api/stats');
 const boardIssues = require('./api/boardIssues');
+const apiCache = require('apicache').middleware;
 
 var jira = new JiraClient({
     host: config.host,
@@ -25,7 +26,7 @@ app.use(function(req, res, next) {
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.get('/api/stats', (req, res) => {
+app.get('/api/stats', apiCache('12 hours'), (req, res) => {
     stats(jira).then((data) => {
         res.jsonp({data:[data]});
     });
