@@ -47,11 +47,11 @@ function populateStoryPoints(kanbanBoardData, searchData) {
 
     return kanbanBoardData;
 }
-function getStats(jira) {
+function getStats(jira, id) {
     return jira.filter.getFilter({filterId: config.filterId})
         .then((data) => {
             return Promise.all([
-                jira.greenHopper.getAllKanbanBoardData({boardId: config.boardId}),
+                jira.greenHopper.getAllKanbanBoardData({boardId: id}),
                 jira.search.search({jql: data.jql, maxResults: 1000})
             ]);
         })

@@ -26,14 +26,14 @@ app.use(function(req, res, next) {
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.get('/api/stats', apiCache('12 hours'), (req, res) => {
-    stats(jira).then((data) => {
-        res.jsonp({data:[data]});
+app.get('/api/stats/:boardId', apiCache('12 hours'), (req, res) => {
+    stats(jira, req.params.boardId).then((data) => {
+        res.jsonp({data:data});
     });
 });
 
-app.get('/api/boardIssues/:id', (req, res) => {
-  boardIssues(jira, req.params.id).then((data) => {
+app.get('/api/boardIssues/:boardId', (req, res) => {
+  boardIssues(jira, req.params.boardId).then((data) => {
     res.jsonp(data);
   });
 });
