@@ -3,11 +3,10 @@ const config = require('./../config/local');
 function getIssues(jira, opts) {
     let ids = opts.ids;
     let jql = 'id in (' + ids.join() + ')';
-    return jira.search.search({jql: jql, maxResults: ids.length, fields: [config.storyPointFieldName, config.targetVersionFieldName, 'summary']})
+    return jira.search.search({jql: jql, maxResults: ids.length, fields: [config.storyPointFieldName, config.targetVersionFieldName, 'summary', 'rank']})
         .then((data) => {
-            let issueDataList = [];
-            data.issues.forEach((issue) => {
-                let issueData = {
+            let issueDataList = data.issues.map((issue) => {
+                return issueData = {
                     id: issue.id,
                     type: 'issue',
                     attributes: {
@@ -18,7 +17,6 @@ function getIssues(jira, opts) {
                         summary: issue.fields.summary
                     }
                 };
-                issueDataList.push(issueData);
             });
             return Promise.resolve(issueDataList);
         });
@@ -31,7 +29,6 @@ function getBoardIssues(jira, boardId) {
             data.swimlanesData.customSwimlanesData.swimlanes.forEach((swimlane) => {
                 issueIdList = issueIdList.concat(swimlane.issueIds);
             });
-            console.log(issueIdList);
             return getIssues(jira, {ids: issueIdList});
         })
         .then((data) => {

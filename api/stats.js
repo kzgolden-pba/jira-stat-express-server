@@ -81,8 +81,6 @@ function getStats(jira, id) {
                     }
                 });
             }
-
-            //resObj.averageCycleTime = calcAverageCycleTime(kanbanBoardData);
             
             attributes.totalSamplePoints = weeklyPointTotals.reduce((a, b) => { return a + b;});
             attributes.avgPoints = average(weeklyPointTotals);
