@@ -1,4 +1,5 @@
 const config = require('./../config/local');
+const buildIssueUrl = require('./../util/jiraUrls').buildIssueUrl;
 
 function getIssues(jira, opts) {
     let ids = opts.ids;
@@ -8,9 +9,9 @@ function getIssues(jira, opts) {
             let issueDataList = data.issues.map((issue) => {
                 return issueData = {
                     id: issue.id,
-                    type: 'issue',
+                    type: 'board-issue',
                     attributes: {
-                        url: issue.self,
+                        url: buildIssueUrl(issue.key),
                         key: issue.key,
                         storyPoints: issue.fields[config.storyPointFieldName],
                         targetVersions: issue.fields[config.targetVersionFieldName],

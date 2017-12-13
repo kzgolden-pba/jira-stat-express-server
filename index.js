@@ -26,15 +26,15 @@ app.use(function(req, res, next) {
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.get('/api/stats/:boardId', (req, res) => {
+app.get('/api/stats/:boardId', apiCache('12 hours'), (req, res) => {
     stats(jira, req.params.boardId).then((data) => {
         res.jsonp({data:data});
     });
 });
 
 app.get('/api/boardIssues', (req, res) => {
-  boardIssues(jira, req.query.board_id).then((data) => {
-    res.jsonp(data);
+  boardIssues(jira, req.query.boardId).then((data) => {
+    res.jsonp({data:data});
   });
 });
 
