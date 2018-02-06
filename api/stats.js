@@ -56,6 +56,15 @@ function getStats(jira, id) {
             ]);
         })
         .then((data) => {
+            data.push(jira.greenHopper.getControlChart({
+                boardId: id,
+                swimLaneIdList: data[0].swimlanesData.customSwimlanesData.swimlanes.map(function(swimLane) {
+                    return swimLane.id;
+                })
+            }));
+            return data;
+        })
+        .then((data) => {
             let kanbanBoardData = populateStoryPoints(data[0], data[1]);
             let lastCol = kanbanBoardData.columnsData.columns.pop();
             let weeklyTixTotals = [];

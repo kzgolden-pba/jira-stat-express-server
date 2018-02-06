@@ -4,7 +4,7 @@ const buildIssueUrl = require('./../util/jiraUrls').buildIssueUrl;
 function getIssues(jira, opts) {
     let ids = opts.ids;
     let jql = 'id in (' + ids.join() + ')';
-    return jira.search.search({jql: jql, maxResults: ids.length, fields: [config.storyPointFieldName, config.targetVersionFieldName, 'summary', 'rank']})
+    return jira.search.search({jql: jql, maxResults: ids.length, fields: [config.storyPointFieldName, config.targetVersionFieldName, 'summary', 'status']})
         .then((data) => {
             let issueDataList = data.issues.map((issue) => {
                 return issueData = {
@@ -15,7 +15,8 @@ function getIssues(jira, opts) {
                         key: issue.key,
                         storyPoints: issue.fields[config.storyPointFieldName],
                         targetVersions: issue.fields[config.targetVersionFieldName],
-                        summary: issue.fields.summary
+                        summary: issue.fields.summary,
+                        status: issue.fields.status
                     }
                 };
             });
