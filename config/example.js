@@ -5,5 +5,7 @@ module.exports = {
     'protocol': 'http',
     'boardId': 304,
     'filterId': 16618,
-    'storyPointFieldName': 'customfield_10002'
+    'storyPointFieldName': 'customfield_10002',
+    'targetVersionFieldName': 'customfield_11700',
+    'additionalRankingFieldName': 'customfield_11702',
 };
