@@ -4,6 +4,7 @@ const app = express();
 const JiraClient = require('jira-connector');
 const config = require('./config/local');
 const Promise = require('bluebird');
+const boardElements = require('./api/boardElements');
 const stats = require('./api/stats');
 const boardIssues = require('./api/boardIssues');
 const apiCache = require('apicache').middleware;
@@ -23,13 +24,21 @@ app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 });
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
 
 app.get('/api/stats/:boardId', apiCache('12 hours'), (req, res) => {
     stats(jira, req.params.boardId).then((data) => {
         res.jsonp({data:data});
     });
+});
+
+app.get('/api/boardElements', (req, res) => {
+  boardElements(jira, req.query.boardId).then((data) => {
+    res.jsonp({data:data});
+  });
 });
 
 app.get('/api/boardIssues', (req, res) => {
