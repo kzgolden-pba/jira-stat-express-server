@@ -30,7 +30,9 @@ function getBoardIssues(jira, boardId) {
     return jira.greenHopper.getAllKanbanBoardData({boardId: boardId})
         .then((data) => {
             data.swimlanesData.customSwimlanesData.swimlanes.forEach((swimlane) => {
-                issueIdList = issueIdList.concat(swimlane.issueIds);
+                if (config.swimlanesFilter.length === 0 || config.swimlanesFilter.includes(swimlane.id)){
+                    issueIdList = issueIdList.concat(swimlane.issueIds);
+                }
             });
             return getIssues(jira, {ids: issueIdList});
         })
