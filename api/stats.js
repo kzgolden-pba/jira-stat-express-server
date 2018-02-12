@@ -147,7 +147,6 @@ function getStats(jira, id) {
             attributes.currentWeekTix = issuesClosedCurrentWeek.issueTotal;
             attributes.inProgressPts = inProgress.points;
             attributes.inProgressTix = inProgress.issueTotal;
-            attributes.inProgressIds = inProgress.ids;
 
             for(let i = 0; i < attributes.weeks; i++) {
                 let tix = kanbanBoardData.issuesData.issues.filter((issue) => {
@@ -170,7 +169,7 @@ function getStats(jira, id) {
             attributes.totalTix = weeklyTixTotals.reduce((a, b) => { return a + b; });
             attributes.avgNoTixPerWeek = average(weeklyTixTotals);
             attributes.stdDeviationNoTix = standardDeviation(weeklyTixTotals);
-            attributes.closedIds = lastColIds;
+
             resObj.id = config.boardId;
             resObj.type = 'stat';
             resObj.attributes = attributes;

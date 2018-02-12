@@ -9,5 +9,4 @@ module.exports = {
     'targetVersionFieldName': 'customfield_11700',
     'additionalRankingFieldName': 'customfield_11702',
     'workingColumnIds': [1782],
-    'swimlanesFilter': [563, 607, 595]
 };
