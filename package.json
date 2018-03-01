@@ -17,6 +17,7 @@
     "express": "^4.16.2",
     "install": "^0.10.2",
     "jira-connector": "git@github.com:kcgolden/jira-connector.git#greenhopper",
+    "json2csv": "^4.0.0",
     "npm": "^5.5.1"
   },
   "devDependencies": {

@@ -8,6 +8,7 @@ const boardElements = require('./api/boardElements');
 const stats = require('./api/stats');
 const boardIssues = require('./api/boardIssues');
 const apiCache = require('apicache').middleware;
+const closedBugs = require('./api/closedBugs');
 
 var jira = new JiraClient({
     host: config.host,
@@ -47,4 +48,11 @@ app.get('/api/boardIssues', (req, res) => {
     });
 });
 
+app.get('/api/closedBugs', (req, res) => {
+    closedBugs(jira, req.query.start, req.query.end).then((data) => {
+        res.send(data);
+    });
+});
+
 app.listen(3000, () => console.log('Listening on port 3000'));
+    
